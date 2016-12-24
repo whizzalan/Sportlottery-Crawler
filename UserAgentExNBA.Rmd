@@ -1,0 +1,42 @@
+---
+title: "UserAgent TWSportNBA"
+output: html_notebook
+---
+
+# 爬取台灣運彩盤口資料 
+
+[nba運彩冠軍](https://www.sportslottery.com.tw/zh/web/guest/sports-betting#m/all/s-442/c/t-4102/501/1)
+
+## 2016 開始阻擋
+
+```{r}
+library(httr)
+## User Agent at R
+getOption("HTTPUserAgent")
+## User Agent at Chrome Browser 
+usrAgent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36"
+```
+
+```{r}
+## data 位置
+url.regular <- "https://www.sportslottery.com.tw/web/services/rs/betting/tournamentGames/15102/0/t-4102.json?groups=501&locale=tw&brandId=defaultBrand&channelId=1"
+httr_options("useragent")
+httr::set_config( config( ssl_verifypeer = 0L ) )
+res = GET(url = url.regular,user_agent(usrAgent))
+res
+content(res, "parsed")
+```
+
+## If no setting User Agent
+
+```{r}
+## change userAgent
+options(HTTPUserAgent="R (3.3.2 x86_64-apple-darwin13.4.0 x86_64 darwin13.4.0)")
+res = GET(url = url.regular)
+res
+content(res, "parsed")
+```
+
+
+
+
